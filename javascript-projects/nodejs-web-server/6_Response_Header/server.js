@@ -13,19 +13,15 @@ const requestListener = (request, response) =>{
     if(url === '/'){
         if(method === 'GET'){
             response.statusCode = 200;
-            response.end(JSON.stringify({
-                message: 'Ini adalah homepage',
-            }));
+            response.end('<h1>ini adalah homepage</h1>');
         }else{
             response.statusCode = 400;
-            response.end(JSON.stringify({
-                message: `Halaman tidak dapat diakses dengan ${method} request`,
-            }));
+            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
         }
     }else if(url === '/about'){
         if(method === 'GET'){
             response.statusCode = 200;
-            response.end('Halo! Ini adalah halaman about');
+            response.end('<h1>Halo! Ini adalah halaman about</h1>');
         }else if(method === 'POST'){
             let body = [];
             request.on('data', (chunk) => {
@@ -36,21 +32,15 @@ const requestListener = (request, response) =>{
                 // ambil name dari sini: <h1>Hai, {"name": "Dicoding"}!</h1>
                 const {name} = JSON.parse(body);
                 response.statusCode = 200;
-                response.end(JSON.stringify({
-                    message: `Halo, ${name}! Ini adalah halaman about`,
-                }));
+                response.end(`<h1>Halo, ${name}! Ini adalah halaman about</h1>`);
             });
         }else{
             response.statusCode = 400;
-            response.end(JSON.stringify({
-                message: `Halaman tidak dapat diakses dengan ${method} request`,
-            }));
+            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
         }
     }else{
         response.statusCode = 400;
-        response.end(JSON.stringify({
-            message: 'Halaman tidak ditemukan',
-        }));
+        response.end('<h1>Halaman tidak ditemukan</h1>');
     }
 };
 
@@ -64,14 +54,4 @@ server.listen(port, host, () =>{
 });
 
 // To run the server, use this command: npm run start
-/*  curl -X GET http://localhost:5000/anything
-    output: { "message":"Halaman tidak ditemukan!"}
-    curl -X GET http://localhost:5000/test
-    output: { "message":"Halaman tidak ditemukan!"}
-    curl -X GET http://localhost:5000/
-    output: {"message":"Ini adalah homepage"}
-    curl -X GET http://localhost:5000/about
-    output: {"message":"Halo! ini adalah halaman about"}
-    curl -X DELETE http://localhost:5000/
-    output: {"message":"Halaman tidak dapat diakses dengan DELETE request"}
-*/
+// Karena tipe contentnya json, maka syntax html tidak akan dirender (bentuknya hanya teks biasa)
